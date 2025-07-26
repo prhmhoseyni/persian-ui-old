@@ -1,15 +1,156 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /**
+   * -----------------------------------------------------------------------------------------------------------------
+   * :::: generic variables ::::
+   */
+  --dig-background-primary: #f5f5f5;
+  --dig-background-secondary: #ffffff;
+  --dig-background-dialog: #ffffff;
+  --dig-background-inverse: #000000;
+
+  --dig-prose-primary: #0c0e10;
+  --dig-prose-secondary: #667585;
+  --dig-prose-hint: #9aa6b1;
+  --dig-prose-inverse: #f6f7f8;
+  --dig-prose-link: #209cd7;
+
+  --dig-brand: #3e88c1;
+  --dig-info: #2d90d2;
+  --dig-success: #159754;
+  --dig-warning: #d07c06;
+  --dig-danger: #c53211;
+  --dig-gray: #272937;
+
+  /**
+   * -----------------------------------------------------------------------------------------------------------------
+   * :::: design tokens ::::
+   */
+  --dig-color-mix-hover: #000000 10%;
+  --dig-color-mix-active: #000000 15%;
+
+  --dig-color-mix-light: #FFFFFF 90%;
+  --dig-color-mix-light-hover: #FFFFFF 85%;
+  --dig-color-mix-light-active: #FFFFFF 80%;
+
+  --dig-color-mix-gray: #FFFFFF;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+
+    /**
+     * ---------------------------------------------------------------------------------------------------------------
+     * :::: generic variables ::::
+     */
+    --dig-background-primary: #121212;
+    --dig-background-secondary: #1f1f1f;
+    --dig-background-dialog: #2d2d2d;
+    --dig-background-inverse: #ffffff;
+
+    --dig-prose-primary: #f4f4f4;
+    --dig-prose-secondary: #b3b3b3;
+    --dig-prose-hint: #6d6d6d;
+    --dig-prose-inverse: #282828;
+    --dig-prose-link: #2d90d2;
+
+    --dig-brand: #3e88c1;
+    --dig-info: #2d90d2;
+    --dig-success: #159754;
+    --dig-warning: #d07c06;
+    --dig-danger: #c53211;
+    --dig-gray: #f4f4f4;
+
+    /**
+     * ---------------------------------------------------------------------------------------------------------------
+     * :::: design tokens ::::
+     */
+    --dig-color-mix-hover: #FFFFFF 10%;
+    --dig-color-mix-active: #FFFFFF 15%;
+
+    --dig-color-mix-light: #000000 90%;
+    --dig-color-mix-light-hover: #000000 85%;
+    --dig-color-mix-light-active: #000000 80%;
+
+    --dig-color-mix-gray: #000000;
   }
+}
+
+@theme {
+  --color-background-primary: var(--dig-background-primary);
+  --color-background-secondary: var(--dig-background-secondary);
+  --color-background-dialog: var(--dig-background-dialog);
+  --color-background-inverse: var(--dig-background-inverse);
+
+  --color-prose-primary: var(--dig-prose-primary);
+  --color-prose-secondary: var(--dig-prose-secondary);
+  --color-prose-hint: var(--dig-prose-hint);
+  --color-prose-inverse: var(--dig-prose-inverse);
+  --color-prose-link: var(--dig-prose-link);
+
+  --color-brand: var(--dig-brand);
+  --color-brand-hover: color-mix(in srgb, var(--dig-brand), var(--dig-color-mix-hover));
+  --color-brand-active: color-mix(in srgb, var(--dig-brand), var(--dig-color-mix-active));
+  --color-brand-light: color-mix(in srgb, var(--dig-brand), var(--dig-color-mix-light));
+  --color-brand-light-hover: color-mix(in srgb, var(--dig-brand), var(--dig-color-mix-light-hover));
+  --color-brand-light-active: color-mix(in srgb, var(--dig-brand), var(--dig-color-mix-light-active));
+
+  --color-info: var(--dig-info);
+  --color-info-hover: color-mix(in srgb, var(--dig-info), var(--dig-color-mix-hover));
+  --color-info-active: color-mix(in srgb, var(--dig-info), var(--dig-color-mix-active));
+  --color-info-light: color-mix(in srgb, var(--dig-info), var(--dig-color-mix-light));
+  --color-info-light-light: color-mix(in srgb, var(--dig-info), var(--dig-color-mix-light-hover));
+  --color-info-light-active: color-mix(in srgb, var(--dig-info), var(--dig-color-mix-light-active));
+
+  --color-success: var(--dig-success);
+  --color-success-hover: color-mix(in srgb, var(--dig-success), var(--dig-color-mix-hover));
+  --color-success-active: color-mix(in srgb, var(--dig-success), var(--dig-color-mix-active));
+  --color-success-light: color-mix(in srgb, var(--dig-success), var(--dig-color-mix-light));
+  --color-success-light-hover: color-mix(in srgb, var(--dig-success), var(--dig-color-mix-light-hover));
+  --color-success-light-active: color-mix(in srgb, var(--dig-success), var(--dig-color-mix-light-active));
+
+  --color-warning: var(--dig-warning);
+  --color-warning-hover: color-mix(in srgb, var(--dig-warning), var(--dig-color-mix-hover));
+  --color-warning-active: color-mix(in srgb, var(--dig-warning), var(--dig-color-mix-active));
+  --color-warning-light: color-mix(in srgb, var(--dig-warning), var(--dig-color-mix-light));
+  --color-warning-light-hover: color-mix(in srgb, var(--dig-warning), var(--dig-color-mix-light-hover));
+  --color-warning-light-active: color-mix(in srgb, var(--dig-warning), var(--dig-color-mix-light-active));
+
+  --color-danger: var(--dig-danger);
+  --color-danger-hover: color-mix(in srgb, var(--dig-danger), var(--dig-color-mix-hover));
+  --color-danger-active: color-mix(in srgb, var(--dig-danger), var(--dig-color-mix-active));
+  --color-danger-light: color-mix(in srgb, var(--dig-danger), var(--dig-color-mix-light));
+  --color-danger-light-hover: color-mix(in srgb, var(--dig-danger), var(--dig-color-mix-light-hover));
+  --color-danger-light-active: color-mix(in srgb, var(--dig-danger), var(--dig-color-mix-light-active));
+
+  --color-gray: var(--dig-gray);
+  --color-gray-hover: color-mix(in srgb, var(--dig-gray), var(--dig-color-mix-hover));
+  --color-gray-active: color-mix(in srgb, var(--dig-gray), var(--dig-color-mix-active));
+  --color-gray-light: color-mix(in srgb, var(--dig-gray), var(--dig-color-mix-light));
+  --color-gray-light-hover: color-mix(in srgb, var(--dig-gray), var(--dig-color-mix-light-hover));
+  --color-gray-light-active: color-mix(in srgb, var(--dig-gray), var(--dig-color-mix-light-active));
+
+  --color-white: rgba(255, 255, 255, 1);
+  --color-white-80: rgba(255, 255, 255, 80%);
+  --color-white-48: rgba(255, 255, 255, 48%);
+  --color-white-32: rgba(255, 255, 255, 32%);
+  --color-white-24: rgba(255, 255, 255, 24%);
+  --color-white-16: rgba(255, 255, 255, 16%);
+  --color-white-12: rgba(255, 255, 255, 12%);
+  --color-white-8: rgba(255, 255, 255, 08%);
+
+  --color-black: rgba(0, 0, 0, 1);
+  --color-black-80: rgba(0, 0, 0, 80%);
+  --color-black-48: rgba(0, 0, 0, 48%);
+  --color-black-32: rgba(0, 0, 0, 32%);
+  --color-black-24: rgba(0, 0, 0, 24%);
+  --color-black-16: rgba(0, 0, 0, 16%);
+  --color-black-12: rgba(0, 0, 0, 12%);
+  --color-black-8: rgba(0, 0, 0, 08%);
 }
 
 html,
@@ -19,8 +160,8 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--prose-primary);
+  background: var(--background-primary);
 }
 
 * {
@@ -46,6 +187,7 @@ a {
   .imgLight {
     display: none;
   }
+
   .imgDark {
     display: unset;
   }
