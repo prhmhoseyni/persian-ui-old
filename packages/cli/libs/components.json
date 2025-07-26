@@ -1,0 +1,10 @@
+{
+  "button": {
+    "dependencies": null,
+    "src": "https://github.com/prhmhoseyni/persian-ui/tree/main/apps/docs/components/Button"
+  },
+  "bottom-sheet": {
+    "dependencies": ["motion"],
+    "src": "https://github.com/prhmhoseyni/persian-ui/tree/main/src/components/bottom-sheet"
+  }
+}
