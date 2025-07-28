@@ -5,6 +5,23 @@ import fs from "fs-extra";
 import ora from "ora";
 import path from "path";
 
+/**
+ * Defines the structure of the .persianuirc.json configuration file.
+ */
+interface PersianUIConfig {
+  tsx: boolean;
+  tailwind: {
+    version: number;
+    css: string;
+  };
+  aliases: {
+    components: string;
+  };
+}
+
+/**
+ * Defines the structure of component data fetched from the registry.
+ */
 interface ComponentsData {
   [key: string]: {
     dependencies: string[] | null;
@@ -12,6 +29,10 @@ interface ComponentsData {
   };
 }
 
+/**
+ * Loads the component registry data from a remote GitHub URL.
+ * @returns A Promise that resolves with the ComponentsData, or rejects on error.
+ */
 async function getComponentData(): Promise<ComponentsData> {
   const registryURL =
     "https://raw.githubusercontent.com/prhmhoseyni/persian-ui/refs/heads/main/packages/cli/libs/components.json";
@@ -38,6 +59,37 @@ async function getComponentData(): Promise<ComponentsData> {
   }
 }
 
+/**
+ * Reads the .persianuirc.json configuration file from the project root.
+ * @returns A Promise that resolves with the PersianUIConfig, or rejects if the file is not found or invalid.
+ */
+async function getPersianUIConfig(): Promise<PersianUIConfig> {
+  const configFileName = ".persianuirc.json";
+  const configFilePath = path.join(process.cwd(), configFileName);
+  const spinner = ora(`Reading ${chalk.cyan(configFileName)}...`).start();
+
+  try {
+    if (!fs.existsSync(configFilePath)) {
+      spinner.fail(`${configFileName} not found.`);
+      throw new Error(
+        `Configuration file "${configFileName}" not found. Please run "persian-ui init" first.`
+      );
+    }
+    const config = (await fs.readJson(configFilePath)) as PersianUIConfig;
+    spinner.succeed(`${configFileName} loaded successfully.`);
+    return config;
+  } catch (error: any) {
+    spinner.fail(`Failed to read ${configFileName}.`);
+    console.error(chalk.red(error.message));
+    process.exit(1);
+  }
+}
+
+/**
+ * Installs specified npm dependencies.
+ * @param dependencies An array of package names to install.
+ * @returns A Promise that resolves when dependencies are installed, or rejects on error.
+ */
 function installDependencies(dependencies: string[] | null): Promise<void> {
   return new Promise((resolve, reject) => {
     if (!dependencies || dependencies.length === 0) {
@@ -54,7 +106,7 @@ function installDependencies(dependencies: string[] | null): Promise<void> {
     exec(command, (error, stdout, stderr) => {
       if (error) {
         spinner.fail("Failed to install dependencies.");
-        console.error(stderr);
+        console.error(chalk.red(stderr));
         reject(error);
         return;
       }
@@ -64,6 +116,12 @@ function installDependencies(dependencies: string[] | null): Promise<void> {
   });
 }
 
+/**
+ * Fetches a component directory from a GitHub repository.
+ * @param repoURL The URL to the component directory on GitHub (e.g., raw.githubusercontent.com link).
+ * @param destination The local path where the component files should be saved.
+ * @returns A Promise that resolves when the component is fetched, or rejects on error.
+ */
 async function fetchComponentFromGitHub(
   repoURL: string,
   destination: string
@@ -115,31 +173,49 @@ async function fetchComponentFromGitHub(
   }
 }
 
+/**
+ * Adds a specified component to the project.
+ * @param componentName The name of the component to add.
+ */
 export async function add(componentName: string) {
-  // 1. Load data asynchronously from the remote source
-  const componentData = await getComponentData();
-
-  // 2. Validate component name
-  const component = componentData[componentName];
-
-  if (!component) {
-    console.error(chalk.red(`Error: Component "${componentName}" not found.`));
-    console.log(
-      chalk.yellow("Available components:"),
-      Object.keys(componentData).join(", ")
-    );
-    process.exit(1);
-  }
-
   console.log(chalk.blue(`Adding component: ${chalk.bold(componentName)}`));
 
   try {
-    // 3. Install dependencies
+    // 1. Load data asynchronously from the remote source
+    const componentData = await getComponentData();
+
+    // 2. Validate component name
+    const component = componentData[componentName];
+
+    if (!component) {
+      console.error(chalk.red(`Error: Component "${componentName}" not found.`));
+      console.log(
+        chalk.yellow("Available components:"),
+        Object.keys(componentData).join(", ")
+      );
+      process.exit(1);
+    }
+
+    // 3. Load project configuration from .persianuirc.json
+    const config = await getPersianUIConfig();
+    const componentsAlias = config.aliases.components;
+
+    if (!componentsAlias) {
+      console.error(
+        chalk.red(
+          `Error: 'aliases.components' not found in .persianuirc.json. Please check your configuration.`
+        )
+      );
+      process.exit(1);
+    }
+
+    // 4. Install dependencies
     await installDependencies(component.dependencies);
 
-    // 4. Fetch component folder from GitHub
+    // 5. Fetch component folder from GitHub
     const rootDir = process.cwd();
-    const destination = path.join(rootDir, "src", "components", componentName);
+    // Use the components alias from the config file
+    const destination = path.join(rootDir, componentsAlias, componentName);
     await fetchComponentFromGitHub(component.src, destination);
 
     console.log(
