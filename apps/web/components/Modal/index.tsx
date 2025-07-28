@@ -13,7 +13,7 @@ export default function Modal(props: PropsWithChildren<Props>) {
             {props.isOpen && (
                 <div className="fixed inset-0 w-dvw h-dvh flex justify-center items-center z-50">
                     <motion.div
-                        className={clsx("w-full h-full inset-0 backdrop-blur-sm bg-black-12 z-[60] flex flex-col justify-end md:flex-row md:items-center md:justify-center")}
+                        className={clsx("w-full h-full inset-0 bg-black-48 z-[60] flex flex-col justify-end md:flex-row md:items-center md:justify-center")}
                         onClick={props.onClose}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
