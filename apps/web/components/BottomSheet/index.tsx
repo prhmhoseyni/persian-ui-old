@@ -1,15 +1,42 @@
 import clsx from "clsx";
 import { type PanInfo } from "motion";
-import { motion } from "motion/react"
-import { PropsWithChildren, useRef } from "react";
+import { AnimatePresence, motion } from "motion/react"
+import { memo, type PropsWithChildren, useRef, type MemoExoticComponent, type ReactNode } from "react";
+import styles from "./index.module.css";
 
-interface Props {
+/**
+ * -----------------------------------------------------------------------------------------------------------------
+ * :::: bottom sheet body ::::
+ */
+interface BottomSheetBodyProps extends PropsWithChildren {
+    className?: string;
+}
+
+function BottomSheetBody(props: BottomSheetBodyProps) {
+    return (
+        <div
+            className={clsx(
+                "bg-background-primary overflow-auto md:rounded-b-2xl",
+                styles["bottom-sheet__body"],
+                props.className
+            )}
+        >
+            {props.children}
+        </div>
+    )
+}
+
+/**
+ * -----------------------------------------------------------------------------------------------------------------
+ * :::: bottom sheet base ::::
+ */
+interface BaseBottomSheetProps extends PropsWithChildren {
     title: string;
     isOpen: boolean;
     onClose: () => void;
 }
 
-export default function BottomSheet(props: PropsWithChildren<Props>) {
+function BaseBottomSheet(props: BaseBottomSheetProps) {
     const rightKnobRef = useRef<HTMLDivElement>(null);
     const leftKnobRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +65,7 @@ export default function BottomSheet(props: PropsWithChildren<Props>) {
 
 
     return (
-        <>
+        <AnimatePresence>
             {props.isOpen && (
                 <div className="fixed inset-0 w-dvw h-dvh flex justify-center items-center z-50">
                     <motion.div
@@ -74,18 +101,29 @@ export default function BottomSheet(props: PropsWithChildren<Props>) {
                             </div>
                         </div>
 
-                        <div className="hidden md:flex items-center justify-between gap-2 py-3 px-4 bg-primary rounded-t-2xl">
+                        <div className="hidden md:flex items-center justify-between gap-2 py-3 px-4 bg-background-primary rounded-t-2xl">
                             <div className="text-subtitle2 py-1">
                                 {props.title}
                             </div>
-
-                            {/* <Image src={images.icon.close.src} alt={images.icon.close.alt} width={24} height={24} onClick={props.onClose} className="cursor-pointer" /> */}
                         </div>
 
                         {props.children}
                     </motion.dialog>
                 </div>
             )}
-        </>
+        </AnimatePresence>
     );
 }
+
+/**
+ * -----------------------------------------------------------------------------------------------------------------
+ * :::: bottom sheet ::::
+ */
+interface ComposeProps {
+    Body: typeof BottomSheetBody;
+}
+
+const BottomSheet = memo(BaseBottomSheet) as MemoExoticComponent<(props: BaseBottomSheetProps) => ReactNode> & ComposeProps;
+BottomSheet.Body = BottomSheetBody;
+
+export default BottomSheet;
