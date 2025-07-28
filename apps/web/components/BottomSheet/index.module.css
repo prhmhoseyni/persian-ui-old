@@ -1,0 +1,12 @@
+.bottom-sheet__body {
+    padding-top: calc(0rem + env(safe-area-inset-top));
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    padding-inline: 1rem;
+    max-height: calc(100dvh - 72px);
+}
+
+@media screen and (max-width: 768px) {
+    .bottom-sheet__body {
+        max-height: calc(100dvh - 56px);
+    }
+}
