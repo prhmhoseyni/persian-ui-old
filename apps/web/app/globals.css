@@ -35,40 +35,6 @@
   --dig-color-mix-gray: #FFFFFF;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-
-    /** :::: generic variables :::: */
-    --dig-background-primary: #121212;
-    --dig-background-secondary: #1f1f1f;
-    --dig-background-dialog: #2d2d2d;
-    --dig-background-inverse: #ffffff;
-
-    --dig-prose-primary: #f4f4f4;
-    --dig-prose-secondary: #b3b3b3;
-    --dig-prose-hint: #6d6d6d;
-    --dig-prose-inverse: #282828;
-    --dig-prose-link: #2d90d2;
-
-    --dig-brand: #3e88c1;
-    --dig-info: #2d90d2;
-    --dig-success: #159754;
-    --dig-warning: #d07c06;
-    --dig-danger: #c53211;
-    --dig-gray: #f4f4f4;
-
-    /** :::: design tokens :::: */
-    --dig-color-mix-hover: #FFFFFF 10%;
-    --dig-color-mix-active: #FFFFFF 15%;
-
-    --dig-color-mix-light: #000000 90%;
-    --dig-color-mix-light-hover: #000000 85%;
-    --dig-color-mix-light-active: #000000 80%;
-
-    --dig-color-mix-gray: #000000;
-  }
-}
 
 @theme {
   /** :::: colors :::: */

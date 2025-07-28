@@ -1,6 +1,11 @@
+"use client";
+
 import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
+import MyButton from "../components/Button";
+import BottomSheet from "../components/BottomSheet";
+import { useState } from "react";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -19,11 +24,31 @@ const ThemeImage = (props: Props) => {
 };
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
     <div className={styles.page}>
       <h1 className="text-3xl font-bold underline text-amber-500">
         Hello world!
       </h1>
+
+      <MyButton variant="contained" onClick={() => setIsOpen(true)}>بازم کن</MyButton>
+
+      <BottomSheet title="This is a test bottom sheet" isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <ul>
+          <li>123456789</li>
+          <li>123456789</li>
+          <li>123456789</li>
+          <li>123456789</li>
+          <li>123456789</li>
+          <li>123456789</li>
+          <li>123456789</li>
+          <li>123456789</li>
+          <li>123456789</li>v
+          <li>123456789</li>
+          <li>123456789</li>
+        </ul>
+      </BottomSheet>
 
       <main className={styles.main}>
         <ThemeImage
