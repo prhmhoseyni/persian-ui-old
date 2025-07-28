@@ -1,11 +1,12 @@
 "use client";
 
-import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
-import MyButton from "../components/Button";
-import BottomSheet from "../components/BottomSheet";
+import Image, { type ImageProps } from "next/image";
 import { useState } from "react";
+import BottomSheet from "../components/BottomSheet";
+import MyButton from "../components/Button";
+import Modal from "../components/Modal";
+import styles from "./page.module.css";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -24,7 +25,8 @@ const ThemeImage = (props: Props) => {
 };
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -33,6 +35,7 @@ export default function Home() {
       </h1>
 
       <MyButton variant="contained" onClick={() => setIsOpen(true)}>بازم کن</MyButton>
+      <MyButton variant="contained" onClick={() => setIsModalOpen(true)}>modal</MyButton>
 
       <BottomSheet title="This is a test bottom sheet" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ul>
@@ -49,6 +52,16 @@ export default function Home() {
           <li>123456789</li>
         </ul>
       </BottomSheet>
+
+      <Modal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)}>
+        <p>this is a test modal</p>
+        <p>Lorem ipsum dolor sit amet, voluptates iure quia, sint dignissimos iste. Aperiam, dignissimos corrupti?</p>
+      
+        <div className="flex gap-3 w-full">
+          <MyButton color="brand" className="flex-1">ok</MyButton>
+          <MyButton variant="tinted" color="gray" className="flex-1" onClick={() => setIsModalOpen(false)}>close</MyButton>
+        </div>
+      </Modal>
 
       <main className={styles.main}>
         <ThemeImage

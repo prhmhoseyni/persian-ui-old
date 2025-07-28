@@ -6,5 +6,9 @@
   "bottom-sheet": {
     "dependencies": ["motion"],
     "src": "https://github.com/prhmhoseyni/persian-ui/tree/main/src/components/bottom-sheet"
+  },
+  "Modal": {
+    "dependencies": ["motion"],
+    "src": "https://github.com/prhmhoseyni/persian-ui/tree/main/src/components/Modal"
   }
 }
