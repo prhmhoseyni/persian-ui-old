@@ -26,6 +26,7 @@ const ThemeImage = (props: Props) => {
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -33,7 +34,8 @@ export default function Home() {
         Hello world!
       </h1>
 
-      <MyButton variant="contained" onClick={() => setIsOpen(true)} fullWidth>بازم کن</MyButton>
+      <MyButton variant="contained" onClick={() => setIsOpen(true)}>بازم کن</MyButton>
+      <MyButton variant="contained" onClick={() => setIsModalOpen(true)}>modal</MyButton>
 
       <BottomSheet title="This is a test bottom sheet" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <BottomSheet.Body>
