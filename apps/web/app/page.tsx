@@ -1,11 +1,12 @@
 "use client";
 
-import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
-import MyButton from "../components/Button";
-import BottomSheet from "../components/BottomSheet";
+import Image, { type ImageProps } from "next/image";
 import { useState } from "react";
+import BottomSheet from "../components/BottomSheet";
+import MyButton from "../components/Button";
+import Switch from "../components/Switch";
+import styles from "./page.module.css";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -28,11 +29,25 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <h1 className="text-3xl font-bold underline text-amber-500">
-        Hello world!
-      </h1>
+      <h1 className="text-3xl font-bold underline text-amber-500">Hello world!</h1>
 
-      <MyButton variant="contained" onClick={() => setIsOpen(true)} fullWidth>بازم کن</MyButton>
+      <div className="flex flex-wrap gap-5">
+        <Switch color="brand" />
+        <Switch color="danger" />
+        <Switch color="gray" />
+        <Switch color="info" />
+        <Switch color="success" />
+        <Switch color="warning" />
+        <Switch size="sm" />
+        <Switch size="md" />
+        <Switch size="lg" />
+        <Switch disabled />
+        <Switch isLoading />
+      </div>
+
+      <MyButton variant="contained" onClick={() => setIsOpen(true)} fullWidth>
+        بازم کن
+      </MyButton>
 
       <BottomSheet title="This is a test bottom sheet" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <BottomSheet.Body>
@@ -55,15 +70,7 @@ export default function Home() {
       </BottomSheet>
 
       <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
+        <ThemeImage className={styles.logo} srcLight="turborepo-dark.svg" srcDark="turborepo-light.svg" alt="Turborepo logo" width={180} height={38} priority />
         <ol>
           <li>
             Get started by editing <code>apps/web/app/page.tsx</code>
@@ -78,21 +85,10 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
+            <Image className={styles.logo} src="/vercel.svg" alt="Vercel logomark" width={20} height={20} />
             Deploy now
           </a>
-          <a
-            href="https://turborepo.com/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
+          <a href="https://turborepo.com/docs?utm_source" target="_blank" rel="noopener noreferrer" className={styles.secondary}>
             Read our docs
           </a>
         </div>
@@ -101,32 +97,12 @@ export default function Home() {
         </Button>
       </main>
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
+        <a href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
+          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
           Examples
         </a>
-        <a
-          href="https://turborepo.com?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
+        <a href="https://turborepo.com?utm_source=create-turbo" target="_blank" rel="noopener noreferrer">
+          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
           Go to turborepo.com →
         </a>
       </footer>
