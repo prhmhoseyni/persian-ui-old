@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { type PanInfo } from "motion";
-import { AnimatePresence, motion } from "motion/react"
-import { memo, type PropsWithChildren, useRef, type MemoExoticComponent, type ReactNode } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { memo, useEffect, useRef, useState, type MemoExoticComponent, type PropsWithChildren, type ReactNode } from "react";
 import styles from "./index.module.css";
 
 /**
@@ -40,6 +40,22 @@ function BaseBottomSheet(props: BaseBottomSheetProps) {
     const rightKnobRef = useRef<HTMLDivElement>(null);
     const leftKnobRef = useRef<HTMLDivElement>(null);
 
+    const [isMobile, setIsMobile] = useState<boolean>()
+
+    useEffect(()=>{
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    },[])
+
     const onDrag = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         if (rightKnobRef.current && leftKnobRef.current) {
             if (info.velocity.y > 0) {
@@ -69,7 +85,7 @@ function BaseBottomSheet(props: BaseBottomSheetProps) {
             {props.isOpen && (
                 <div className="fixed inset-0 w-dvw h-dvh flex justify-center items-center z-50">
                     <motion.div
-                        className={clsx("w-full h-full inset-0 backdrop-blur-sm bg-black-12 z-[60] flex flex-col justify-end md:flex-row md:items-center md:justify-center")}
+                        className={clsx("w-full h-full inset-0 bg-black-48 z-[60] flex flex-col justify-end md:flex-row md:items-center md:justify-center")}
                         onClick={props.onClose}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -79,15 +95,15 @@ function BaseBottomSheet(props: BaseBottomSheetProps) {
                     <motion.dialog
                         open={props.isOpen}
                         className={clsx("fixed bottom-0 md:bottom-auto md:p-0 bg-transparent z-[70] mx-auto max-h-dvh md:shadow-2xl rounded-2xl md:max-w-[36rem] w-full")}
-                        drag={window.screen.width < 768 && "y"}
+                        drag={isMobile && "y"}
                         dragConstraints={{ top: 0 }}
                         dragSnapToOrigin
                         dragElastic={0.01}
                         onDragEnd={onDragEnd}
                         onDrag={onDrag}
-                        initial={window.screen.width < 768 ? { y: "100%" } : { opacity: 0 }}
-                        animate={window.screen.width < 768 ? { y: 0 } : { opacity: 1 }}
-                        exit={window.screen.width < 768 ? { y: "100%" } : { opacity: 0 }}
+                        initial={isMobile ? { y: "100%" } : { opacity: 0 }}
+                        animate={isMobile ? { y: 0 } : { opacity: 1 }}
+                        exit={isMobile ? { y: "100%" } : { opacity: 0 }}
                         transition={{ ease: "easeOut" }}
                     >
                         <div className="flex flex-col justify-center items-center md:hidden  py-4 px-4 bg-background-primary rounded-t-2xl">

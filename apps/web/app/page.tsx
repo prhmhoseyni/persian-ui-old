@@ -5,6 +5,7 @@ import Image, { type ImageProps } from "next/image";
 import { useState } from "react";
 import BottomSheet from "../components/BottomSheet";
 import MyButton from "../components/Button";
+import Modal from "../components/Modal";
 import Switch from "../components/Switch";
 import styles from "./page.module.css";
 
@@ -26,6 +27,7 @@ const ThemeImage = (props: Props) => {
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -45,6 +47,8 @@ export default function Home() {
         <Switch isLoading />
       </div>
 
+      <MyButton variant="contained" onClick={() => setIsOpen(true)}>بازم کن</MyButton>
+      <MyButton variant="contained" onClick={() => setIsModalOpen(true)}>modal</MyButton>
       <MyButton variant="contained" onClick={() => setIsOpen(true)} fullWidth>
         بازم کن
       </MyButton>
@@ -68,6 +72,16 @@ export default function Home() {
           </ul>
         </BottomSheet.Body>
       </BottomSheet>
+
+      <Modal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)}>
+        <p>this is a test modal</p>
+        <p>Lorem ipsum dolor sit amet, voluptates iure quia, sint dignissimos iste. Aperiam, dignissimos corrupti?</p>
+      
+        <div className="flex gap-3 w-full">
+          <MyButton color="brand" className="flex-1">ok</MyButton>
+          <MyButton variant="tinted" color="gray" className="flex-1" onClick={() => setIsModalOpen(false)}>close</MyButton>
+        </div>
+      </Modal>
 
       <main className={styles.main}>
         <ThemeImage className={styles.logo} srcLight="turborepo-dark.svg" srcDark="turborepo-light.svg" alt="Turborepo logo" width={180} height={38} priority />
